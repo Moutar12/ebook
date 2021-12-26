@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\ProfilRepository;
+use App\service\SendMail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager,
-                                ProfilRepository $profilRepository, UserRepository $userRepository
+                                ProfilRepository $profilRepository, UserRepository $userRepository,
+                                SendMail $sendMail
     ){
         $this->encoder = $encoder;
         $this->profilRepo = $profilRepository;
         $this->personneRepo = $userRepository;
         $this->manager = $manager;
+        $this->sendMail = $sendMail;
     }
     /**
      * @Route(
@@ -50,6 +53,7 @@ class UserController extends AbstractController
 
         $this->manager->persist($personne);
         $this->manager->flush();
+        $this->sendMail->send($personne->getEmail(), 'resgistration', "Registration success");
 
         return $this->json("Personne ajoute",Response::HTTP_CREATED);
 

@@ -95,7 +95,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups ({"get_personne","get_personne_id"})
+     * @Groups ({"get_personne","get_personne_id","get_emprunt"})
      */
     private $nom;
 

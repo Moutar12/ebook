@@ -76,12 +76,12 @@ class EmprunteController extends AbstractController
 
         }
         $emprunt->setDatePret(new \DateTime($info['datePret']));
-        $dateRetourPrevu =date('Y-m-d H:m:n',strtotime('15 days',$emprunt->getDatePret()->getTimestamp()));
-        $dateRetourPrevu = \DateTime::createFromFormat('Y-m-d H:m:n',$dateRetourPrevu);
+        //$dateRetourPrevu =date('Y-m-d H:m:n',strtotime('15 days',$emprunt->getDatePret()->getTimestamp()));
+       // $dateRetourPrevu = \DateTime::createFromFormat('Y-m-d H:m:n',$dateRetourPrevu);
 
 
 
-        $emprunt->setDateRetour($dateRetourPrevu);
+        $emprunt->setDateRetour(new \DateTime($info['dateRetour']));
         $emprunt->setStatus("pret");
         $emprunt->setLivre($lvire);
 
