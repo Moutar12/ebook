@@ -50,11 +50,9 @@ class UserController extends AbstractController
             ->setEmail($info["email"])
             ->setProfil($this->profilRepo->findOneBy(["id" => $profil]))
             ->setPassword($this->encoder->encodePassword($personne, $info['password']));
-
         $this->manager->persist($personne);
         $this->manager->flush();
         $this->sendMail->send($personne->getEmail(), 'resgistration', "Registration success");
-
         return $this->json("Personne ajoute",Response::HTTP_CREATED);
 
     }

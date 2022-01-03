@@ -49,12 +49,10 @@ class EmprunteController extends AbstractController
      */
     public function pretLivre(Request $request)
     {
-
         $info = json_decode($request->getContent(), true);
         $adherant = $this->personneRepo->findOneBy(["id" => $info["adherent"]]);
         //dd($adherant);
         $emprunt = new Emprunte();
-
         if (isset($info["adherant"]) && $info["adherant"] !== ""){
             if (!$adherant){
                 return new JsonResponse("Cet adherant n'existe pas", Response::HTTP_BAD_REQUEST, []);
@@ -73,21 +71,13 @@ class EmprunteController extends AbstractController
                 $lvire->setNbrLivre($lvire->getNbrLivre()-1);
                 $this->manager->persist($lvire);
             }
-
         }
         $emprunt->setDatePret(new \DateTime($info['datePret']));
-        //$dateRetourPrevu =date('Y-m-d H:m:n',strtotime('15 days',$emprunt->getDatePret()->getTimestamp()));
-       // $dateRetourPrevu = \DateTime::createFromFormat('Y-m-d H:m:n',$dateRetourPrevu);
-
-
-
         $emprunt->setDateRetour(new \DateTime($info['dateRetour']));
         $emprunt->setStatus("pret");
         $emprunt->setLivre($lvire);
-
         $this->manager->persist($emprunt);
         $this->manager->flush();
-
         return $this->json("emprunte ajoute", Response::HTTP_CREATED);
 
     }
